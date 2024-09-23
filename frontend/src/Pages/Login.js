@@ -5,13 +5,28 @@ const Login = () => {
     const [email , setEmail] = useState("");
     const [password , setPassword] = useState("");
 
-    console.log(`${email}  ${password}`);
+    const registerUser = async (e) => {
+        e.preventDefault();
+        alert('hello form is submited');
+        // const response = await fetch("http://localhost:5000/api/auth/register", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //         email,
+        //         password,
+        //     }),
+        // });
+        // const data = await response.json();
+        // console.log(data);
+    }
 
     return (
         <>
         <div className="container">
             <div className="mb-2"> 
-                <form>
+                <form onSubmit={registerUser}>
                     <div className="mb-3">
                         <Input
                             type="email"
