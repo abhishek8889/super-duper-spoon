@@ -6,6 +6,7 @@ import Home from './Pages/Home';
 import About from './Pages/About';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
+import Chat from './Pages/Chat';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/chat-box" element={<Chat />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
