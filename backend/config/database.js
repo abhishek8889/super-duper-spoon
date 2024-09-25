@@ -25,5 +25,4 @@
 
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://developerashar:4LjRXSqSYd4mXJ2W@cluster0.l8dpaxe.mongodb.net/')
-  .then(() => console.log('Connected!'));
+mongoose.connect('mongodb+srv://developerashar:4LjRXSqSYd4mXJ2W@cluster0.l8dpaxe.mongodb.net/super-dooper-spoon?retryWrites=true&w=majority').then(() => console.log('Connected!'));

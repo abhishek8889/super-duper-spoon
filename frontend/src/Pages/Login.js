@@ -1,14 +1,15 @@
 import React  from "react";
 import Input from "../Components/Input/Input";
 import { useState  } from "react";
+import axios from 'axios';
+
 const Login = () => {
     const [email , setEmail] = useState("");
     const [password , setPassword] = useState("");
 
     const registerUser = async (e) => {
         e.preventDefault();
-        alert('hello form is submited');
-        // const response = await fetch("http://localhost:5000/api/auth/register", {
+        // const response = await fetch("http://localhost:8080/api/register", {
         //     method: "POST",
         //     headers: {
         //         "Content-Type": "application/json",
@@ -20,6 +21,19 @@ const Login = () => {
         // });
         // const data = await response.json();
         // console.log(data);
+
+        axios.post('http://localhost:8080/api/register', {
+            email: email,
+            password: password
+        })
+        .then(function (response) {
+            console.log('success');
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log('error is there :: ');
+            console.log(error);
+        });
     }
 
     return (
