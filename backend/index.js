@@ -1,4 +1,7 @@
 const express = require('express')
+const path = require('path');
+const CONSTANTS = require('./config/constants');
+
 const app = express()
 require('./config/database');
 const cors = require('cors');  // Import CORS middleware
@@ -10,6 +13,7 @@ app.get('/', function (req, res) {
 });
 
 // 
+
 app.use(express.json());
 app.use(cors());
 app.use('/api',routes);

@@ -4,43 +4,68 @@ import axios from "axios";
 
 import { useState  } from "react";
 const Register = () => {
+    // ############ Setting Variables ############
+
     const [name , setName] = useState("");
     const [phone , setPhone] = useState("");
     const [email , setEmail] = useState("");
     const [password , setPassword] = useState("");
+    const [profileImage , setProfileImage] = useState("");
 
-    if(email != 'test@gmail.com'){
-        console.log("Email is not valid")
-    }else{
-        console.log("Email is valid")
+    // ############ Handle Image Uploading ############
+
+    const handleFileChange = (e) => {
+        console.log('hello from file change');
+    
+        const img = {
+            preview: URL.createObjectURL(e.target.files[0]),
+            data: e.target.files[0],
+        }
+        setProfileImage(img);
     }
 
-    console.log(`${name} ${email} ${password} ${phone}`)
-
+    // ############ Register User ############
 
     const registerUser = async (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:8080/api/register', {
-            name : name,
-            email: email,
-            password: password,
-            phone: phone
+        const formData = new FormData();
+
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('phone', phone);
+        formData.append('profileImage', profileImage.data);
+        // console.log(profileImage.data);
+        // return false;
+        axios.post('http://localhost:8080/api/register', formData,{
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
         })
         .then(function (response) {
-            console.log('success');
-            console.log(response);
+            // console.log()
+            if(response.data.status == true){
+                setName('');
+                setEmail('');
+                setPassword('');
+                setPhone('');
+                setProfileImage('');
+            }
         })
         .catch(function (error) {
             console.log('error is there :: ');
             console.log(error);
         });
     }
+
+
     return (
         <>
         <div className="container">
+          
             <div className="mb-2"> 
-                <form onSubmit={registerUser}>
+                <form id="registerForm" onSubmit={registerUser}> 
                     <div className="mb-3">
                         <Input
                             type="text"
@@ -80,6 +105,17 @@ const Register = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
+                    </div>
+                    <div className="mb-3">
+                        <Input
+                            type="file"
+                            name="profile_image"
+                            label="Enter your profile image"
+                            onChange={handleFileChange}
+                        />
+                    </div>
+                    <div className="img-preview mb-1">
+                        {profileImage.preview && <img src={profileImage.preview} width='100' height='100' />}
                     </div>
                     <button type="submit" className="btn btn-primary">Register</button>
                 </form>
