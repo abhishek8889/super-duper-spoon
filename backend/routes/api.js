@@ -7,6 +7,7 @@ const upload = require('../config/multerConfig');
 const AuthController = require('../app/Controllers/Auth/AuthController');
 
 routes.post('/register',upload.single('profileImage'),AuthController.registerUser);
+routes.post('/login',AuthController.loginUser);
 routes.get('/reg',function(req,res){
    res.send('hello');
 })

@@ -10,8 +10,12 @@ async function  securePassword(password , saltRounds = 10) {
     return password;
 }
 
+async function comparePassword(password, hashPassword) {
+    return await bcrypt.compare(password, hashPassword);
+}
 
 
 module.exports = {
-    securePassword
+    securePassword ,
+    comparePassword
 }

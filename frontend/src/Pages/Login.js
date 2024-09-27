@@ -3,26 +3,15 @@ import Input from "../Components/Input/Input";
 import { useState  } from "react";
 import axios from 'axios';
 
+
 const Login = () => {
     const [email , setEmail] = useState("");
     const [password , setPassword] = useState("");
 
     const registerUser = async (e) => {
         e.preventDefault();
-        // const response = await fetch("http://localhost:8080/api/register", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         email,
-        //         password,
-        //     }),
-        // });
-        // const data = await response.json();
-        // console.log(data);
 
-        axios.post('http://localhost:8080/api/register', {
+        axios.post('http://localhost:8080/api/login', {
             email: email,
             password: password
         })
@@ -35,7 +24,17 @@ const Login = () => {
             console.log(error);
         });
     }
-
+    //
+    function getCookie(name) {
+        const cookieString = document.cookie;
+        const cookies = cookieString.split('; '); // Split cookies into an array
+        const cookie = cookies.find(row => row.startsWith(`${name}=`));
+        return cookie ? cookie.split('=')[1] : null; // Return the cookie value or null if not found
+    }
+    const token = getCookie('token');
+    
+    console.log(token);
+    
     return (
         <>
         <div className="container">
