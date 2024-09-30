@@ -20,6 +20,10 @@ const userSchema = mongoose.Schema({
     profile_image:{
         type:String,
     },
+    is_admin:{
+        type:Boolean,
+        default:false,
+    },
     created_at:{
         type: Date, 
         default: Date.now()

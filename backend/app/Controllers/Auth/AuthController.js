@@ -42,7 +42,16 @@ const loginUser = async(req,res) => {
             return res.status(400).send({"status":false,"data":{'message' :'Your credentials are wrong.'}});
         }
 
-        const token = jwt.sign({ userId: user._id }, 'login-auth-key', {
+        const token = jwt.sign({ 
+            user: user._id ,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            profile_image: user.profile_image ,
+            is_admin: user.is_admin ,
+            created_at: user.created_at ,
+            updated_at: user.updated_at 
+        }, 'login-auth-key', {
             expiresIn: '1h',
         });
 
@@ -52,8 +61,9 @@ const loginUser = async(req,res) => {
             sameSite: 'Lax', // or 'Strict' based on your need
             maxAge: 3600000, // 1 hour
         });
+       
         // res.status(400).send({"status":false,"data":{'message' :'Your credentials are wrong.'}});
-        return res.status(200).json({ message:"Logged in successfully"});
+        return res.status(200).json({ 'status': true , 'token': token ,'is_admin':user.is_admin   , message:"Logged in successfully"});
 
     } catch (error) {
         return res.status(500).json({ error: 'Login failed' , 'message' : error.message });

@@ -2,11 +2,15 @@ import React  from "react";
 import Input from "../Components/Input/Input";
 import { useState  } from "react";
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { setCookie, getCookie, clearAllCookies } from '../Utils/utils';
+import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
     const [email , setEmail] = useState("");
     const [password , setPassword] = useState("");
+    const navigate = useNavigate();
 
     const registerUser = async (e) => {
         e.preventDefault();
@@ -18,6 +22,10 @@ const Login = () => {
         .then(function (response) {
             console.log('success');
             console.log(response);
+            if(response.data.token != undefined && response.data.token != null && response.data.status == true){
+                setCookie('jwt' ,response.data.token ,1);
+                navigate('/dashboard');
+            } 
         })
         .catch(function (error) {
             console.log('error is there :: ');
@@ -25,15 +33,12 @@ const Login = () => {
         });
     }
     //
-    function getCookie(name) {
-        const cookieString = document.cookie;
-        const cookies = cookieString.split('; '); // Split cookies into an array
-        const cookie = cookies.find(row => row.startsWith(`${name}=`));
-        return cookie ? cookie.split('=')[1] : null; // Return the cookie value or null if not found
-    }
-    const token = getCookie('token');
+    const setTokenInCookie = (token) => {
+        Cookies.set('jwt', token, { expires: 1, path: '/' }); 
+    };
+
+    clearAllCookies();
     
-    console.log(token);
     
     return (
         <>

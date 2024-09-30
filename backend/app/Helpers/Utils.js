@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 async function  securePassword(password , saltRounds = 10) {
     if(password == '' || password == undefined){

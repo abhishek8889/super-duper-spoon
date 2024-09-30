@@ -7,6 +7,7 @@ import About from './Pages/About';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Chat from './Pages/Chat';
+import Dashboard from './Pages/User/dashboard';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/chat-box" element={<Chat />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
       <Footer />
     </Router>
