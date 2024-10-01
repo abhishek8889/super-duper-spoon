@@ -2,44 +2,47 @@ import React  from "react";
 import { useNavigate } from 'react-router-dom';
 import  {Link}  from "react-router-dom";
 import { useState , useContext , useEffect} from "react";
-import {jwtDecode} from 'jwt-decode';
-import {  getCookie , clearAllCookies} from '../../Utils/utils';
+import {  clearAllCookies} from '../../Utils/utils';
 import { AuthContext } from "../../Context/AuthContext";
 
 const Navbar = () => {
-    const [isLogged, setIsLogged] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const { authState , setAuthState } = useContext(AuthContext); // Access authState
+    console.log('#############  Auth STATE ##################');
+    console.log(authState);
+    const [isLogged, setIsLogged] = useState(authState.user ? true : false);
+    const [isAdmin, setIsAdmin] = useState(authState.user ? authState.is_admin : false);
 
-    const { authState , setAuthState} = useContext(AuthContext); // Access authState
     const navigate = useNavigate();
+  
+    console.log(`${isLogged}  ${isAdmin}`);
 
     // Run once when the component mounts or when authState changes
-    useEffect(() => {
-        try {
-            // Assuming getCookie is a function to retrieve the JWT token from cookies
-            const token = getCookie('jwt');
+    // useEffect(() => {
+    //     try {
+    //         // Assuming getCookie is a function to retrieve the JWT token from cookies
+    //         const token = getCookie('jwt');
             
-            if (authState.isLoggedIn) {
-                setIsLogged(true);
-                console.log('auth check fro cntexxt')
-            } else if (token) {
-                console.log('check from token');
-                const decodedToken = jwtDecode(token);
-                if (decodedToken && decodedToken.user) {
-                    setIsLogged(true);
-                    setIsAdmin(decodedToken.is_admin);
-                    // setAuthState({ ...authState, isLoggedIn: true, is_admin: decodedToken.is_admin });
-                } else {
-                    setIsLogged(false);
-                }
-            } else {
-                setIsLogged(false);
-            }
-        } catch (error) {
-            console.error('Error decoding JWT:', error);
-            setIsLogged(false);
-        }
-    }, [authState]); // Re-run this effect if `authState` changes
+    //         if (authState.isLoggedIn) {
+    //             setIsLogged(true);
+    //             console.log('auth check fro cntexxt')
+    //         } else if (token) {
+    //             console.log('check from token');
+    //             const decodedToken = jwtDecode(token);
+    //             if (decodedToken && decodedToken.user) {
+    //                 setIsLogged(true);
+    //                 setIsAdmin(decodedToken.is_admin);
+    //                 // setAuthState({ ...authState, isLoggedIn: true, is_admin: decodedToken.is_admin });
+    //             } else {
+    //                 setIsLogged(false);
+    //             }
+    //         } else {
+    //             setIsLogged(false);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error decoding JWT:', error);
+    //         setIsLogged(false);
+    //     }
+    // }, [authState]); // Re-run this effect if `authState` changes
 
     // console.log("############ Auth State ############");
     // console.log(isLogged , isAdmin);
@@ -47,8 +50,7 @@ const Navbar = () => {
     const handleLogout = () => {
         if(isLogged){
             clearAllCookies();
-            setIsLogged(false);
-            setIsAdmin(false);
+            setAuthState({ ...authState, isLoggedIn: false, is_admin: false });
             navigate('/login');
         }
     }
