@@ -1,13 +1,14 @@
 import React  from "react";
 import Input from "../Components/Input/Input";
-import { useState  } from "react";
+import { useState , useContext  } from "react";
 import axios from 'axios';
-import Cookies from 'js-cookie';
-import { setCookie, getCookie, clearAllCookies } from '../Utils/utils';
+// import Cookies from 'js-cookie';
+import { setCookie, clearAllCookies } from '../Utils/utils';
 import { useNavigate } from 'react-router-dom';
-
+import { AuthContext } from "../Context/AuthContext";
 
 const Login = () => {
+    const { setAuthState } = useContext(AuthContext);
     const [email , setEmail] = useState("");
     const [password , setPassword] = useState("");
     const navigate = useNavigate();
@@ -22,8 +23,9 @@ const Login = () => {
         .then(function (response) {
             console.log('success');
             console.log(response);
-            if(response.data.token != undefined && response.data.token != null && response.data.status == true){
+            if(response.data.token !== undefined && response.data.token !== null && response.data.status === true){
                 setCookie('jwt' ,response.data.token ,1);
+                setAuthState({ isLoggedIn: true, is_admin: response.data.is_admin });
                 navigate('/dashboard');
             } 
         })
@@ -33,11 +35,11 @@ const Login = () => {
         });
     }
     //
-    const setTokenInCookie = (token) => {
-        Cookies.set('jwt', token, { expires: 1, path: '/' }); 
-    };
+    // const setTokenInCookie = (token) => {
+    //     Cookies.set('jwt', token, { expires: 1, path: '/' }); 
+    // };
 
-    clearAllCookies();
+    // clearAllCookies() ;  
     
     
     return (

@@ -45,7 +45,7 @@ const Register = () => {
         })
         .then(function (response) {
             // console.log()
-            if(response.data.status == true){
+            if(response.data.status === true){
                 setName('');
                 setEmail('');
                 setPassword('');
@@ -115,7 +115,7 @@ const Register = () => {
                         />
                     </div>
                     <div className="img-preview mb-1">
-                        {profileImage.preview && <img src={profileImage.preview} width='100' height='100' />}
+                        {profileImage.preview && <img src={profileImage.preview} width='100' height='100' alt="test" />}
                     </div>
                     <button type="submit" className="btn btn-primary">Register</button>
                 </form>

@@ -1,15 +1,58 @@
 import React  from "react";
+import { useNavigate } from 'react-router-dom';
 import  {Link}  from "react-router-dom";
-import { useState } from "react";
+import { useState , useContext , useEffect} from "react";
 import {jwtDecode} from 'jwt-decode';
-import { setCookie, getCookie, clearAllCookies } from '../../Utils/utils';
+import {  getCookie , clearAllCookies} from '../../Utils/utils';
+import { AuthContext } from "../../Context/AuthContext";
 
 const Navbar = () => {
-    const [isLogged, setIsLogged] = useState(getCookie('jwt') ? true : false);
-    if(isLogged){
-        const decodedToken = jwtDecode(getCookie('jwt'));
-        console.log(decodedToken);
-    }   
+    const [isLogged, setIsLogged] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    const { authState , setAuthState} = useContext(AuthContext); // Access authState
+    const navigate = useNavigate();
+
+    // Run once when the component mounts or when authState changes
+    useEffect(() => {
+        try {
+            // Assuming getCookie is a function to retrieve the JWT token from cookies
+            const token = getCookie('jwt');
+            
+            if (authState.isLoggedIn) {
+                setIsLogged(true);
+                console.log('auth check fro cntexxt')
+            } else if (token) {
+                console.log('check from token');
+                const decodedToken = jwtDecode(token);
+                if (decodedToken && decodedToken.user) {
+                    setIsLogged(true);
+                    setIsAdmin(decodedToken.is_admin);
+                    // setAuthState({ ...authState, isLoggedIn: true, is_admin: decodedToken.is_admin });
+                } else {
+                    setIsLogged(false);
+                }
+            } else {
+                setIsLogged(false);
+            }
+        } catch (error) {
+            console.error('Error decoding JWT:', error);
+            setIsLogged(false);
+        }
+    }, [authState]); // Re-run this effect if `authState` changes
+
+    // console.log("############ Auth State ############");
+    // console.log(isLogged , isAdmin);
+
+    const handleLogout = () => {
+        if(isLogged){
+            clearAllCookies();
+            setIsLogged(false);
+            setIsAdmin(false);
+            navigate('/login');
+        }
+    }
+
     return (
         <>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -33,7 +76,7 @@ const Navbar = () => {
                     {isLogged && (
                         <>
                             <li className="nav-item">
-                                <Link className="nav-link" to="">Logout</Link>
+                                <button className="nav-link" onClick={handleLogout}>Logout</button>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/chat-box">Chat box</Link>
