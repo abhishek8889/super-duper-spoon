@@ -10,10 +10,6 @@ const {publicRoutes , protectedRoutes} = require('./routes/api');
 // const routes = require('./routes/api');
 
 
-app.get('/', function (req, res) {
-  res.send('Hello World')
-});
-
 // 
 
 app.use(express.json());

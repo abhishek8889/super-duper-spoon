@@ -5,10 +5,10 @@ import { Navigate , useLocation } from 'react-router-dom';
 const ProtectedRoute = ({children , isAdmin}) => {
     const { authState , setAuthState } = useContext(AuthContext);
     const location = useLocation();
-    console.log('######### Hello from protected route ######### ');
-    console.log(authState)
-    console.log(children , isAdmin);
-    console.log(location);
+    // console.log('######### Hello from protected route ######### ');
+    // console.log(authState)
+    // console.log(children , isAdmin);
+    // console.log(location);
     if (!authState.isLoggedIn) {
       return <Navigate to="/login" state={{ from: location }} />;
     }

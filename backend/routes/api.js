@@ -12,7 +12,7 @@ protectedRoutes.use(authenticateToken); // Apply JWT middleware to all protected
 // ############# Controllers #############
 
 const AuthController = require('../app/Controllers/Auth/AuthController');
-
+const UserController  = require('../app/Controllers/User/UserController');
 
 
 // ############# Routes #############
@@ -27,6 +27,7 @@ publicRoutes.get('/reg',function(req,res){
 protectedRoutes.get('/test' ,authenticateToken , function( req , res) {
    res.send(req.user);
 });
+protectedRoutes.get('/user-list' ,authenticateToken ,UserController.UserList);
 
 
 

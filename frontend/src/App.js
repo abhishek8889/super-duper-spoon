@@ -1,4 +1,4 @@
-
+import React , {useContext} from 'react';
 import Header  from './Components/layouts/Header';
 import Footer from './Components/layouts/footer';
 import { BrowserRouter as Router, Route , Routes  } from "react-router-dom";
@@ -12,13 +12,13 @@ import ProtectedRoute from './Utils/protectedRoute';
 import { AuthContext } from './Context/AuthContext';
 function App() {
   const {authState} = useContext(AuthContext);
-  console.log(authState.isLoggedIn , 'asfasdfasdfasdfhasdf');
+  console.log(authState.isLoggedIn);
   return (
     <>
     <Router >
       <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={authState.isLoggedIn?<Dashboard />:<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

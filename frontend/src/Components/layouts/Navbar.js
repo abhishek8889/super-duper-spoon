@@ -8,8 +8,8 @@ import { AuthContext } from "../../Context/AuthContext";
 const Navbar = () => {
     const { authState , setAuthState } = useContext(AuthContext); // Access authState
     
-    console.log('#############  Navbar ##################');
-    console.log(authState);
+    // console.log('#############  Navbar ##################');
+    // console.log(authState);
  
     const navigate = useNavigate();
   
