@@ -3,6 +3,7 @@ import Table from "../../Components/table/Table";
 import axios from "axios";
 import { getCookie } from '../../Utils/utils';
 import { AuthContext } from "../../Context/AuthContext";
+import Card from "../../Components/card/Card";
 
 const Dashboard = () => {
   const [userList, setUserList] = useState([]);
@@ -41,8 +42,7 @@ const Dashboard = () => {
         <div class="card-body">
           <h5 class="card-title center">User lists</h5>
           <div className="container mt-5">
-            {useState.is_admin ? (<Table rows={rows} data={userList} />) : <p>Hello welcome user </p>}
-            
+            {authState.is_admin ? (<Table rows={rows} data={userList} />) : <p>Hello welcome user </p>}
           </div>
         </div>
       </div>

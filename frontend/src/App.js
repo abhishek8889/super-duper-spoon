@@ -10,6 +10,8 @@ import Chat from './Pages/Chat';
 import Dashboard from './Pages/Loggedin/Dashboard';
 import ProtectedRoute from './Utils/protectedRoute';
 import { AuthContext } from './Context/AuthContext';
+import Profile from './Pages/Loggedin/Profile';
+
 function App() {
   const {authState} = useContext(AuthContext);
   console.log(authState.isLoggedIn);
@@ -35,6 +37,14 @@ function App() {
             element={
               <ProtectedRoute isAdmin={false}>
                 <Chat />
+              </ProtectedRoute>
+            }
+          />
+           <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute>
+                <Profile />
               </ProtectedRoute>
             }
           />

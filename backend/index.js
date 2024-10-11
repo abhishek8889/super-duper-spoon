@@ -7,10 +7,6 @@ require('./config/database');
 const cors = require('cors');  // Import CORS middleware
 
 const {publicRoutes , protectedRoutes} = require('./routes/api');
-// const routes = require('./routes/api');
-
-
-// 
 
 app.use(express.json());
 app.use(cors());
